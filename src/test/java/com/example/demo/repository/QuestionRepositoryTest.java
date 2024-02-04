@@ -2,6 +2,7 @@ package com.example.demo.repository;
 
 import com.example.demo.entity.Answer;
 import com.example.demo.entity.Question;
+import com.example.demo.service.QuestionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,6 +23,9 @@ class QuestionRepositoryTest {
     @Autowired
     private AnswerRepository answerRepository;
 
+
+    @Autowired
+    private QuestionService questionService;
 
     @Test
     public void createQuestion(){
@@ -167,6 +171,14 @@ class QuestionRepositoryTest {
             List<Answer> answerList = q.getAnswerList();
             assertEquals(1, answerList.size());
             assertEquals("답변입니다.", answerList.get(0).getContent());
+        }
+    }
+    @Test
+    void testJpa() {
+        for (int i = 1; i <= 300; i++) {
+            String subject = String.format("테스트 데이터입니다:[%03d]", i);
+            String content = "내용무";
+            this.questionService.create(subject, content);
         }
     }
 
