@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
-</head>
-<body>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{main_layout}">
 
-<div class="container my-3">
+<th:block layout:fragment="css">
+    <style>
+        a:link{
+            color:black;
+        }
+
+    </style>
+</th:block>
+<div class="container my-3" layout:fragment="content">
     <table class="table">
-        <thead class="table-dark">
+        <thead class="table-dark" >
             <tr>
                 <th>번호</th>
                 <th>제목</th>
@@ -26,7 +28,8 @@
         </tr>
         </tbody>
     </table>
+
+    <a th:href="@{/question/create}" class="btn btn-success">질문 등록</a>
 </div>
 
-</body>
 </html>

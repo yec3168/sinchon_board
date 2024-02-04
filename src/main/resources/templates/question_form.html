@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{main_layout}">
+
+<th:block layout:fragment="css">
+    <style>
+
+    </style>
+</th:block>
+<div class="container" layout:fragment="content">
+    <h5 class="my-3 border-bottom pb-2">질문등록</h5>
+
+    <form th:action="@{/question/create}" th:object="${questionFormDto}" method="post">
+        <div class="mb-3">
+            <label for="subject" class="form-label">제목</label>
+            <input type="text" class="form-control" name="subject" id="subject">
+            <p class="alert alert-danger" role="alert" th:errors = "*{subject}" th:if="${#fields.hasErrors('subject')}"></p>
+        </div>
+        <div class="mb-3">
+            <label for="content" class="form-label">내용</label>
+            <textarea name="content" id="content" class="form-control" rows="10"></textarea>
+            <p class="alert alert-danger" role="alert" th:errors="*{content}" th:if="${#fields.hasErrors('content')}"></p>
+        </div>
+        <input type="submit" value="등록하기" class="btn btn-success my-2">
+    </form>
+
+</div>
+
+
+</html>
