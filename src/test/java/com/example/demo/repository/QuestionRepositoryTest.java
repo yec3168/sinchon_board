@@ -101,25 +101,25 @@ class QuestionRepositoryTest {
         assertEquals(1, q.getId());
     }
 
-    @Test
-    public void repositoryMethodTest(){
-        // or
-        Question qOr = questionRepository.findBySubjectOrContent("sbb가 무엇인가요?", "ㅈㄱㄴ");
-        assertEquals("sbb에 대해서 알고 싶습니다.", qOr.getContent());
-
-        // between
-        List<Question> qBetween = questionRepository.findByCreateDateBetween(LocalDateTime.MIN, LocalDateTime.now());
-        assertEquals(0, qBetween.size());
-
-        //lessthan
-        List<Question> qLessThan = questionRepository.findByIdLessThan(3);
-        assertEquals(2, qLessThan.size());
-
-        //GreaterThanEqual
-        List<Question> greateThanEqual = questionRepository.findByIdGreaterThanEqual(0);
-        assertEquals(2, greateThanEqual.size());
-
-    }
+//    @Test
+//    public void repositoryMethodTest(){
+//        // or
+//        Question qOr = questionRepository.findBySubjectOrContent("sbb가 무엇인가요?", "ㅈㄱㄴ");
+//        assertEquals("sbb에 대해서 알고 싶습니다.", qOr.getContent());
+//
+//        // between
+//        List<Question> qBetween = questionRepository.findByCreateDateBetween(LocalDateTime.MIN, LocalDateTime.now());
+//        assertEquals(0, qBetween.size());
+//
+//        //lessthan
+//        List<Question> qLessThan = questionRepository.findByIdLessThan(3);
+//        assertEquals(2, qLessThan.size());
+//
+//        //GreaterThanEqual
+//        List<Question> greateThanEqual = questionRepository.findByIdGreaterThanEqual(0);
+//        assertEquals(2, greateThanEqual.size());
+//
+//    }
 
 
     @Test

@@ -5,6 +5,9 @@ import com.example.demo.entity.Question;
 import com.example.demo.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +26,7 @@ public class QuestionService {
         return questionRepository.findAll();
     }
 
+    @Transactional
     public Question getQuestion(Integer id) {
         Optional<Question> question = this.questionRepository.findById(id);
         if (question.isPresent()) {
@@ -39,6 +43,13 @@ public class QuestionService {
         question.setContent(content);
         question.setCreateDate(LocalDateTime.now());
         questionRepository.save(question);
+    }
+
+    public Page<Question> getList(int page){
+        //PageRequest : 현재 페이지와 한 페이지에 보여 줄 게시물 개수 등을 설정하여 페이징 요청을 하는 클래스이다.
+        //PageRequest.of(page, 10); // page는 조회할 페이지 번호, 10은 한페이젱 보여줄 페이지 개수
+        Pageable pageable = PageRequest.of(page, 10);
+        return questionRepository.findAll(pageable);
     }
 
 }
