@@ -34,8 +34,7 @@ public class QuestionController {
     public String list(Model model, @RequestParam(value = "page", defaultValue = "0")int page){
         Page<Question> paging = questionService.getList(page);
         model.addAttribute("paging", paging);
-        model.addAttribute("questionList", questionService.getList());
-        return "question_list";
+       return "question_list";
     }
 
     @GetMapping(value = "/detail/{id}")
