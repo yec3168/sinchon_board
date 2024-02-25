@@ -62,12 +62,12 @@
     </div>
     <!-- 답변 반복 끝  -->
     <!-- 답변 작성 -->
-    <form th:action="@{|/answer/create/${question.id}|}" method="post" class="my-3" th:object="${answerFormDto}">
+    <form id ="answerForm" method="post" class="my-3" th:object="${answerFormDto}"  onsubmit="return false;">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
         <textarea sec:authorize="isAnonymous()" readonly th:field="*{content}" class="form-control" rows="10"></textarea>
         <textarea sec:authorize="isAuthenticated()" th:field="*{content}" class="form-control" rows="10"></textarea>
         <p class="alert alert-danger" role="alert" th:errors="*{content}" th:if="${#fields.hasErrors('content')}"></p>
-        <input type="submit" value="답변등록" class="btn btn-primary my-2">
+        <input type="button" th:onclick="javascript: sendAnswer(${question.id})" value="답변등록" class="btn btn-primary my-2">
     </form>
 
 
@@ -84,7 +84,14 @@
                 });
             });
 
+            function sendAnswer(questionId){
 
+                const answerForm = document.getElementById('answerForm');
+                answerForm.action = "/answer/create/"+questionId;
+
+
+                answerForm.submit();
+            }
         </script>
     </th:block>
 </div>
