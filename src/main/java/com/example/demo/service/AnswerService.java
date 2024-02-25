@@ -36,4 +36,11 @@ public class AnswerService {
             throw new DataNotFoundException("Answer Not found");
         }
     }
+
+    public void updateSave(Answer answer){
+        answerRepository.save(answer);
+    }
+    public void delete(Answer answer){
+        answerRepository.delete(answer);
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.example.demo.dto.AnswerFormDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,4 +31,9 @@ public class Answer {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private SiteUser author;
+
+    public void update(AnswerFormDto answerFormDto){
+        this.content = answerFormDto.getContent();
+        this.updateTime = LocalDateTime.now();
+    }
 }

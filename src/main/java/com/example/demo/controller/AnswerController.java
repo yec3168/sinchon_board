@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.AnswerFormDto;
+import com.example.demo.dto.QuestionFormDto;
 import com.example.demo.entity.Answer;
 import com.example.demo.entity.Question;
 import com.example.demo.entity.SiteUser;
@@ -53,12 +54,71 @@ public class AnswerController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/update/{id}")
     public String updateAnswer(AnswerFormDto answerFormDto, @PathVariable("id")Integer id,
-                              Principal principal){
+                              Principal principal, Model model){
         Answer answer = answerService.getAnswer(id);
         if(!answer.getAuthor().getUsername().equals(principal.getName()))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"수정권한이 없습니다.");
 
         answerFormDto.setContent(answer.getContent());
+        model.addAttribute("answerFormDto", answerFormDto);
+        model.addAttribute("question", answer.getQuestion());
         return "question_detail";
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/update/{id}")
+    public String updateAnswer(@Valid AnswerFormDto answerFormDto, BindingResult bindingResult,
+                               @PathVariable("id")Integer id, QuestionFormDto questionFormDto,
+                               Principal principal, Model model){
+        if(bindingResult.hasErrors()){
+            return "question_detail";
+        }
+        Answer answer = answerService.getAnswer(id);
+        answer.update(answerFormDto);
+        answerService.updateSave(answer);
+
+        return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+    }
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable("id")Integer id, Principal principal){
+        Answer answer = answerService.getAnswer(id);
+        if(!answer.getAuthor().getUsername().equals(principal.getName()))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"수정권한이 없습니다.");
+        answerService.delete(answer);
+
+        return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+    }
+
+
+//    @PreAuthorize("isAuthenticated()")
+//    @GetMapping("/update/{id}")
+//    public String updateAnswer(AnswerFormDto answerFormDto, @PathVariable("id")Integer id,
+//                               Principal principal, Model model){
+//        Answer answer = answerService.getAnswer(id);
+//        if(!answer.getAuthor().getUsername().equals(principal.getName()))
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"수정권한이 없습니다.");
+//
+//        answerFormDto.setContent(answer.getContent());
+//        model.addAttribute("answerFormDto", answerFormDto);
+//        return "answer_form";
+//    }
+//
+//    @PreAuthorize("isAuthenticated()")
+//    @PostMapping("/update/{id}")
+//    public String updateAnswer(@Valid AnswerFormDto answerFormDto, BindingResult bindingResult,
+//                               @PathVariable("id")Integer id, QuestionFormDto questionFormDto,
+//                               Principal principal, Model model){
+//        if(bindingResult.hasErrors()){
+//            return "answer_form";
+//        }
+//        Answer answer = answerService.getAnswer(id);
+//        if(!answer.getAuthor().getUsername().equals(principal.getName()))
+////            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"수정권한이 없습니다.");
+////
+//        answer.update(answerFormDto);
+//        answerService.updateSave(answer);
+//
+//        return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+//    }
 }

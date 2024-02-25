@@ -109,7 +109,14 @@ public class QuestionController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/delete/{id}")
-    public String questionDelete(){
-        return "";
+    public String questionDelete(@PathVariable("id")Integer id, Principal principal){
+        Question question = questionService.getQuestion(id);
+        // Postman으로 접근하는 방식 지정.
+        if(!question.getAuthor().getUsername().equals(principal.getName()))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
+
+        questionService.delete(question);
+
+        return "redirect:/";
     }
 }
