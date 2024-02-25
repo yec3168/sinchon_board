@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{main_layout}"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+      xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.w3.org/1999/xhtml">
 
 <div class="container my-3" th:object="${question}" layout:fragment="content">
     <!-- 질문 -->
@@ -17,10 +17,15 @@
                 </div>
             </div>
             <div class="my-3">
-                <a th:href="@{|/question/update/${question.id}|}" class="btn btn-sm btn-outline-secondary"
+                <a th:href="@{|/question/update/${question.id}|}" class="btn btn-sm btn-outline-warning"
                    sec:authorize="isAuthenticated()"
                    th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"
                    th:text="수정"></a>
+
+                <a href="#" th:data-uri="@{|/question/delete/${question.id}|}"
+                   sec:authorize="isAuthenticated()"class="delete btn btn-sm btn-outline-danger" th:text="삭제"
+                   th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"
+                   ></a>
             </div>
         </div>
     </div>
@@ -42,10 +47,14 @@
                 </div>
             </div>
             <div class="my-3">
-                <a th:href="@{|/answer/update/${question.id}|}" class="btn btn-sm btn-outline-secondary"
+                <a th:href="@{|/answer/update/${question.id}|}" class="btn btn-sm btn-outline-warning"
                    sec:authorize="isAuthenticated()"
                    th:if="${answer.author != null and #authentication.getPrincipal().getUsername() == answer.author.username}"
                    th:text="수정"></a>
+                <a href="#"
+                   sec:authorize="isAuthenticated()"class="delete btn btn-sm btn-outline-danger" th:text="삭제"
+                   th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"
+                ></a>
             </div>
 
 
@@ -59,5 +68,22 @@
         <p class="alert alert-danger" role="alert" th:errors="*{content}" th:if="${#fields.hasErrors('content')}"></p>
         <input type="submit" value="답변등록" class="btn btn-primary my-2">
     </form>
+
+
+    <th:block layout:fragment="script">
+        <script>
+           const deleteBtn = document.getElementsByClassName("delete");
+            Array.from(deleteBtn).forEach(function (element){
+                element.addEventListener("click", function(){
+                 //클릭시 행동하는 이벤트
+                    if(confirm("정말로 삭제하시겠습니까?"))
+                        location.href=this.dataset.uri;
+                    else
+                        return false;
+                });
+
+            });
+        </script>
+    </th:block>
 </div>
 </html>

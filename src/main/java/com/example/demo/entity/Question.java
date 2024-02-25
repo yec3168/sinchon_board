@@ -43,6 +43,7 @@ public class Question {
     public void updateQuestion(QuestionFormDto questionFormDto){
         this.subject =questionFormDto.getSubject();
         this.content = questionFormDto.getContent();
+        this.updateDate = LocalDateTime.now();
 
     }
 }

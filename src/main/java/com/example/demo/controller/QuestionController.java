@@ -76,11 +76,14 @@ public class QuestionController {
     @GetMapping("/update/{id}")
     public String questionUpdate(QuestionFormDto questionFormDto, Principal principal,
                                  @PathVariable("id")Integer id, Model model){
+
         Question question = questionService.getQuestion(id);
         if(!question.getAuthor().getUsername().equals(principal.getName())){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
         }
         System.out.println(question.getSubject());
+        System.out.println(question.getContent());
+
         questionFormDto.setSubject(question.getSubject());
         questionFormDto.setContent(question.getContent());
 
@@ -102,5 +105,11 @@ public class QuestionController {
         question.updateQuestion(questionFormDto);
         questionService.updateSave(question);
         return String.format("redirect:/question/detail/%s",id);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/delete/{id}")
+    public String questionDelete(){
+        return "";
     }
 }
