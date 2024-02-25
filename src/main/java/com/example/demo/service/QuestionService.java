@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.DataNotFoundException;
 import com.example.demo.entity.Question;
+import com.example.demo.entity.SiteUser;
 import com.example.demo.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +40,11 @@ public class QuestionService {
     }
 
     @Transactional
-    public void create(String subject, String content){
+    public void create(String subject, String content, SiteUser author){
         Question question = new Question();
         question.setSubject(subject);
         question.setContent(content);
+        question.setAuthor(author);
         question.setCreateDate(LocalDateTime.now());
         questionRepository.save(question);
     }
@@ -57,4 +59,7 @@ public class QuestionService {
         return questionRepository.findAll(pageable);
     }
 
+    public void updateSave(Question question){
+        questionRepository.save(question);
+    }
 }

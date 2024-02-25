@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.example.demo.dto.QuestionFormDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,7 +31,18 @@ public class Question {
 
     private LocalDateTime createDate; //작성날짜
 
+    private LocalDateTime updateDate;
+
     //onetomamy의 기본 fetch type은 fetchtype=eagle 이다.
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Answer> answerList = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private SiteUser author;
+
+    public void updateQuestion(QuestionFormDto questionFormDto){
+        this.subject =questionFormDto.getSubject();
+        this.content = questionFormDto.getContent();
+
+    }
 }

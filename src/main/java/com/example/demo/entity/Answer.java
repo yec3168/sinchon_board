@@ -23,7 +23,11 @@ public class Answer {
 
     private LocalDateTime createTime;
 
+    private LocalDateTime updateTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Question question;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private SiteUser author;
 }

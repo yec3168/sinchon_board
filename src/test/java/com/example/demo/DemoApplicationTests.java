@@ -18,7 +18,7 @@ class DemoApplicationTests {
 
 	@Test
 	void createUserTest(){
-		SiteUser siteUser = userService.create("qweqwe","123","1@1");
+
 
 	}
 

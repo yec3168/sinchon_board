@@ -7,23 +7,27 @@
             <h4>회원가입</h4>
         </div>
     </div>
-    <form th:action="@{/user/signup}" method="post">
+    <form th:action="@{/user/signup}" method="post" th:object="${userCreateForm}">
 
         <div class="mb-3">
             <label th:for="username" class="form-label">사용자ID</label>
             <input type="text" name="username" class="form-control">
+            <p class="alert alert-danger" role="alert" th:errors = "*{username}" th:if="${#fields.hasErrors('username')}"></p>
         </div>
         <div class="mb-3">
             <label th:for="password1" class="form-label">비밀번호</label>
             <input type="password" name="password1" class="form-control">
+            <p class="alert alert-danger" role="alert" th:errors = "*{password1}" th:if="${#fields.hasErrors('password1')}"></p>
         </div>
         <div class="mb-3">
             <label th:for="password2" class="form-label">비밀번호 확인</label>
             <input type="password" name="password2" class="form-control">
+            <p class="alert alert-danger" role="alert" th:errors = "*{password2}" th:if="${#fields.hasErrors('password2')}"></p>
         </div>
         <div class="mb-3">
             <label th:for="email" class="form-label">이메일</label>
             <input type="email" name="email" class="form-control">
+            <p class="alert alert-danger" role="alert" th:errors = "*{email}" th:if="${#fields.hasErrors('email')}"></p>
         </div>
         <button type="submit" class="btn btn-primary">회원가입</button>
     </form>
