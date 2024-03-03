@@ -2,10 +2,8 @@ package com.example.demo.entity;
 
 import com.example.demo.dto.QuestionFormDto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -34,6 +32,9 @@ public class Question {
 
     private LocalDateTime updateDate;
 
+    @ColumnDefault("false")
+    private boolean voteYn;
+
     //onetomamy의 기본 fetch type은 fetchtype=eagle 이다.
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Answer> answerList = new ArrayList<>();
@@ -43,6 +44,10 @@ public class Question {
 
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<SiteUser> voter;
+
+
+
+
 
     public void updateQuestion(QuestionFormDto questionFormDto){
         this.subject =questionFormDto.getSubject();

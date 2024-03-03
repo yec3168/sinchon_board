@@ -61,11 +61,13 @@ public class QuestionService {
 
     public void voteQuestion(Question question, SiteUser siteUser){
         question.getVoter().add(siteUser);
+        question.setVoteYn(true);
         questionRepository.save(question);
     }
 
     public void deleteVote(Question question ,SiteUser siteUser){
         question.getVoter().remove(siteUser);
+        question.setVoteYn(false);
         questionRepository.save(question);
     }
     public void updateSave(Question question){

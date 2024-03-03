@@ -123,6 +123,18 @@ public class QuestionController {
         return "redirect:/";
     }
 
+//    @PreAuthorize("isAuthenticated()")
+//    @GetMapping("/vote/{id}")
+//    public String voteQuestion(@PathVariable("id")Integer id, Principal principal){
+//        Question question = questionService.getQuestion(id);
+//        SiteUser siteUser = userService.getUser(principal.getName());
+//        if(!question.getVoter().contains(siteUser))
+//            questionService.voteQuestion(question, siteUser);
+//        else{
+//            questionService.deleteVote(question, siteUser);
+//        }
+//        return "redirect:/question/detail/"+id;
+//    }
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/vote/{id}")
     public String voteQuestion(@PathVariable("id")Integer id, Principal principal){
@@ -130,12 +142,10 @@ public class QuestionController {
         SiteUser siteUser = userService.getUser(principal.getName());
         if(!question.getVoter().contains(siteUser)){
             questionService.voteQuestion(question, siteUser);
-
         }
         else{
             questionService.deleteVote(question, siteUser);
         }
-
 
 
         return "redirect:/question/detail/"+id;
