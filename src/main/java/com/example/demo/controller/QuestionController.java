@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.print.attribute.standard.Sides;
 import java.security.Principal;
@@ -39,6 +40,8 @@ public class QuestionController {
 
     @Autowired
     private final UserService userService;
+
+
 
     @GetMapping("/list")
     public String list(Model model, @RequestParam(value = "page", defaultValue = "0")int page){
@@ -118,5 +121,23 @@ public class QuestionController {
         questionService.delete(question);
 
         return "redirect:/";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/vote/{id}")
+    public String voteQuestion(@PathVariable("id")Integer id, Principal principal){
+        Question question = questionService.getQuestion(id);
+        SiteUser siteUser = userService.getUser(principal.getName());
+        if(!question.getVoter().contains(siteUser)){
+            questionService.voteQuestion(question, siteUser);
+
+        }
+        else{
+            questionService.deleteVote(question, siteUser);
+        }
+
+
+
+        return "redirect:/question/detail/"+id;
     }
 }

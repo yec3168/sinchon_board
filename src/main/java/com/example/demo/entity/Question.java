@@ -10,6 +10,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -39,6 +40,9 @@ public class Question {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private SiteUser author;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<SiteUser> voter;
 
     public void updateQuestion(QuestionFormDto questionFormDto){
         this.subject =questionFormDto.getSubject();

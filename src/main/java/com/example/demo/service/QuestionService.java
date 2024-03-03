@@ -59,6 +59,15 @@ public class QuestionService {
         return questionRepository.findAll(pageable);
     }
 
+    public void voteQuestion(Question question, SiteUser siteUser){
+        question.getVoter().add(siteUser);
+        questionRepository.save(question);
+    }
+
+    public void deleteVote(Question question ,SiteUser siteUser){
+        question.getVoter().remove(siteUser);
+        questionRepository.save(question);
+    }
     public void updateSave(Question question){
         questionRepository.save(question);
     }

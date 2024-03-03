@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -88,6 +89,18 @@ public class AnswerController {
         answerService.delete(answer);
 
         return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/vote/{id}")
+    public String voteAnswer(@PathVariable("id")Integer id, Principal principal){
+        Answer answer = answerService.getAnswer(id);
+        SiteUser siteUser = userService.getUser(principal.getName());
+        if(!answer.getVoter().contains(siteUser))
+            answerService.voteAnswer(answer, siteUser);
+        else
+            answerService.deleteVote(answer,siteUser);
+        return "redirect:/question/detail/"+answer.getQuestion().getId();
     }
 
 

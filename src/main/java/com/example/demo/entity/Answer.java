@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -31,6 +32,9 @@ public class Answer {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private SiteUser author;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<SiteUser> voter;
 
     public void update(AnswerFormDto answerFormDto){
         this.content = answerFormDto.getContent();
