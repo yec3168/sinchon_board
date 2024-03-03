@@ -35,6 +35,9 @@ public class Question {
     @ColumnDefault("false")
     private boolean voteYn;
 
+    @ColumnDefault("0")
+    private int view;
+
     //onetomamy의 기본 fetch type은 fetchtype=eagle 이다.
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Answer> answerList = new ArrayList<>();

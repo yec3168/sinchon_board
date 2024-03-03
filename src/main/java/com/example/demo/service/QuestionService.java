@@ -4,6 +4,9 @@ import com.example.demo.DataNotFoundException;
 import com.example.demo.entity.Question;
 import com.example.demo.entity.SiteUser;
 import com.example.demo.repository.QuestionRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -77,4 +80,11 @@ public class QuestionService {
     public void delete(Question question){
         questionRepository.delete(question);
     }
+
+    public  void viewCountUp(Question question){
+        question.setView(question.getView()+1);
+        questionRepository.save(question);
+    }
+
+
 }
