@@ -61,8 +61,8 @@ public class AnswerController {
 
         answerFormDto.setContent(answer.getContent());
         model.addAttribute("answerFormDto", answerFormDto);
-        model.addAttribute("question", answer.getQuestion());
-        return "question_detail";
+        //model.addAttribute("question", answer.getQuestion());
+        return "answer_form";
     }
 
     @PreAuthorize("isAuthenticated()")
